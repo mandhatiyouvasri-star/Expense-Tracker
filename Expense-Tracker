@@ -1,0 +1,73 @@
+# ====================================
+# EXPENSE TRACKER
+# DecodeLabs - Project 2
+# ====================================
+
+expenses = []
+total = 0
+
+while True:
+    print("\n========== EXPENSE TRACKER ==========")
+    print("1. Add Expense")
+    print("2. View Expenses")
+    print("3. View Total Expense")
+    print("4. Delete Expense")
+    print("5. Exit")
+
+    choice = input("Enter your choice (1-5): ")
+
+    if choice == "1":
+        description = input("Enter expense description: ")
+        amount = float(input("Enter amount: ₹"))
+
+        expense = {
+            "id": len(expenses) + 1,
+            "description": description,
+            "amount": amount
+        }
+
+        expenses.append(expense)
+        total += amount
+
+        print("✅ Expense added successfully!")
+
+    elif choice == "2":
+        if len(expenses) == 0:
+            print("\nNo expenses recorded.")
+        else:
+            print("\n------- EXPENSE LIST -------")
+            for expense in expenses:
+                print(f"{expense['id']}. {expense['description']} - ₹{expense['amount']:.2f}")
+
+    elif choice == "3":
+        print(f"\n💰 Total Expense = ₹{total:.2f}")
+
+    elif choice == "4":
+        if len(expenses) == 0:
+            print("No expenses to delete.")
+        else:
+            expense_id = int(input("Enter Expense ID to delete: "))
+
+            found = False
+
+            for expense in expenses:
+                if expense["id"] == expense_id:
+                    total -= expense["amount"]
+                    expenses.remove(expense)
+                    found = True
+                    print("🗑 Expense deleted successfully.")
+                    break
+
+            if not found:
+                print("❌ Expense ID not found.")
+
+            # Reassign IDs
+            for i in range(len(expenses)):
+                expenses[i]["id"] = i + 1
+
+    elif choice == "5":
+        print("\nThank you for using Expense Tracker!")
+        break
+
+    else:
+        print("❌ Invalid choice. Please enter 1-5.")
